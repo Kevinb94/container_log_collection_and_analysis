@@ -1,0 +1,3 @@
+apps/pgadmin/data/sessions/*
+apps/qbittorrent/config/
+build_log.txt

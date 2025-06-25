@@ -1,0 +1,45 @@
+services:
+  # promtail:
+  #   image: grafana/promtail:latest
+  #   container_name: promtail
+  #   volumes:
+  #     - ./collectors/promtail/config/promtail.yaml:/etc/promtail/promtail.yaml        # Config file
+  #     - ./logs:/var/log/services                                           # Bind-mounted log directory
+  #     - ./collectors/promtail/config/positions.yaml:/tmp/positions.yaml              # Persisted positions
+  #   command: -config.file=/etc/promtail/promtail.yaml
+
+  logrotate:
+    build:
+      context: ./collectors/log_rotate
+    container_name: logrotate
+    volumes:
+      - ./logs:/var/log/services
+      # make sure linux line endings are used and not CRLF
+      - ./collectors/log_rotate:/etc/logrotate.d
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.13.4
+    container_name: logstash
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    volumes:
+      - ./collectors/logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logs:/var/log/services
+    ports:
+      - "9600:9600"
+    environment:
+      - "LS_JAVA_OPTS=-Xms256m -Xmx256m"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false  # Disable security for local testing
+    ports:
+      - "9200:9200"  # Elasticsearch HTTP
+      - "9300:9300"  # Elasticsearch Transport
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

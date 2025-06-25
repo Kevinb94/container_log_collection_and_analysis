@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "[Logrotate Cron] Running at $(date)"
+logrotate -v /etc/logrotate.d/*.conf

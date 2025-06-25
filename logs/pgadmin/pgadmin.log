@@ -1,0 +1,9 @@
+::ffff:172.24.0.1 - - [24/Jun/2025:22:33:33 +0000] "POST /misc/cleanup HTTP/1.1" 200 0 "http://localhost:5050/browser/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0"
+::ffff:172.24.0.1 - - [24/Jun/2025:22:38:33 +0000] "POST /misc/cleanup HTTP/1.1" 200 0 "http://localhost:5050/browser/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0"
+::ffff:172.24.0.1 - - [24/Jun/2025:22:43:34 +0000] "POST /misc/cleanup HTTP/1.1" 200 0 "http://localhost:5050/browser/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0"
+::ffff:172.24.0.1 - - [24/Jun/2025:22:48:35 +0000] "POST /misc/cleanup HTTP/1.1" 200 0 "http://localhost:5050/browser/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0"
+::ffff:172.24.0.1 - - [24/Jun/2025:22:53:36 +0000] "POST /misc/cleanup HTTP/1.1" 200 0 "http://localhost:5050/browser/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0"
+::ffff:172.24.0.1 - - [24/Jun/2025:22:58:37 +0000] "POST /misc/cleanup HTTP/1.1" 200 0 "http://localhost:5050/browser/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0"
+[2025-06-24 23:01:33 +0000] [1] [INFO] Handling signal: term
+[2025-06-24 23:01:34 +0000] [88] [INFO] Worker exiting (pid: 88)
+[2025-06-24 23:01:35 +0000] [1] [INFO] Shutting down: Master

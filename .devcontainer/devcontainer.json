@@ -1,0 +1,24 @@
+{
+  "name": "query-engine-env",
+  "dockerComposeFile": "../../docker-compose.yml",
+  "service": "duckdb_data_warehouse",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "humao.rest-client",              // REST Client
+        "rangav.vscode-thunder-client"    // Thunder Client
+      ],
+      "settings": {
+        "workbench.colorTheme": "One Dark Pro",
+        "workbench.colorCustomizations": {
+          "activityBar.background": "#FFA500"
+        }
+      }
+    }
+  },
+  "remoteUser": "root",
+  "postCreateCommand": "apt-get update && apt-get install -y make nano curl"
+}

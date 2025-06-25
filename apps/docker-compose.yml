@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "6881:6881"
+      - "6881:6881/udp"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - WEBUI_PORT=8080
+      - QBT_WEBUI_USERNAME=kevina
+      - QBT_WEBUI_PASSWORD=
+    volumes:
+      - ./qbittorrent/config:/config
+      - ./qbittorrent/downloads:/downloads
+      - ../logs/qbittorrent:/config/qBittorrent/logs
+      - ./qbittorrent/start.sh:/config/start.sh
+
+  postgres:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: kevina
+      POSTGRES_PASSWORD: 
+      POSTGRES_DB: centralized_logs_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../logs/postgres:/var/log/postgresql  # Only useful if file logging is configured
+      - ./postgres_db/config/postgresql.conf:/etc/postgresql/postgresql.conf
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    restart: unless-stopped
+
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: kevinbalvarez@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 
+    volumes:
+      - ./pgadmin/data:/var/lib/pgadmin
+      - ../logs/pgadmin:/var/lib/pgadmin/logs  # <-- Bind-mount logs
+      - ./pgadmin/start.sh:/start.sh  # <-- custom entrypoint
+    entrypoint: ["/bin/bash", "/start.sh"]  # <-- this line was missing
+volumes:
+  postgres_data:
+  pgadmin_data:
