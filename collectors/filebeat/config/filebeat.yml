@@ -1,0 +1,16 @@
+filebeat.inputs:
+  - type: filestream
+    id: all-logs
+    enabled: true
+    paths:
+      - /var/log/services/**/*.log
+    fields:
+      environment: dev
+    fields_under_root: true
+
+# output.logstash:
+#   hosts: ["logstash:5044"]
+
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]

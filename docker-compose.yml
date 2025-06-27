@@ -43,3 +43,37 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.13.4
+    container_name: filebeat
+    user: root
+    volumes:
+      # Filebeat config
+      - ./collectors/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      # Access to logs
+      - ./logs:/var/log/services
+      # Filebeat registry (to track read positions)
+      - filebeat_data:/usr/share/filebeat/data
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    command: >
+      sh -c "chmod go-w /usr/share/filebeat/filebeat.yml && filebeat"
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:8.13.4
+    container_name: metricbeat
+    user: root
+    volumes:
+      - ./collectors/metricbeat/config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup
+      - /proc:/hostfs/proc
+      - /:/hostfs
+    depends_on:
+      - elasticsearch
+    command: >
+      sh -c "chmod go-w /usr/share/metricbeat/metricbeat.yml && metricbeat"
+
+volumes:
+  filebeat_data:
